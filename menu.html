@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>mhhv2 prm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:-apple-system,system-ui}
+body{
+  margin:0;min-height:100vh;
+  background:radial-gradient(120% 120% at 10% 10%,#2a0f4a,#050505 60%);
+  display:flex;align-items:center;justify-content:center;color:#fff
+}
+.menu{
+  width:92%;max-width:380px;
+  background:rgba(20,20,25,.95);
+  border-radius:18px;
+  box-shadow:0 0 40px rgba(150,0,255,.35);
+  overflow:hidden;
+  animation:pop .4s ease;
+}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.header{
+  padding:16px;
+  display:flex;align-items:center;gap:12px;
+  background:linear-gradient(135deg,#7b2cff,#3a0f66)
+}
+.header img{
+  width:46px;height:46px;border-radius:50%;
+  box-shadow:0 0 12px rgba(0,0,0,.5)
+}
+.header h1{margin:0;font-size:18px}
+.header span{font-size:12px;opacity:.8}
+
+.content{padding:16px}
+
+input,button{
+  width:100%;border:none;border-radius:10px;
+  padding:12px;margin-top:10px;font-size:14px
+}
+input{background:#111;color:#fff}
+button{
+  background:linear-gradient(135deg,#7b2cff,#c77dff);
+  color:#fff;font-weight:600
+}
+button.alt{
+  background:#222;margin-top:6px
+}
+.timer{
+  text-align:center;margin-top:10px;
+  font-size:13px;color:#9cffd0
+}
+.tabs{
+  display:flex;margin-top:10px;gap:6px
+}
+.tabs button{
+  flex:1;background:#222
+}
+.tabs button.active{
+  background:linear-gradient(135deg,#7b2cff,#c77dff)
+}
+.tab{
+  display:none;margin-top:10px
+}
+.tab.active{display:block}
+
+.switch{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-top:12px
+}
+.switch input{width:auto}
+
+.slider{
+  margin-top:12px
+}
+.slider label{
+  font-size:13px;opacity:.85
+}
+.slider input[type=range]{
+  width:100%
+}
+.footer{
+  text-align:center;font-size:11px;
+  opacity:.5;margin-top:12px
+}
+</style>
+</head>
+<body>
+
+<div class="menu">
+  <div class="header">
+    <img src="https://i.imgur.com/0Z8FQyB.png">
+    <div>
+      <h1>mhhv2 prm</h1>
+      <span>private menu</span>
+    </div>
+  </div>
+
+  <div class="content" id="loginBox">
+    <input id="keyInput" placeholder="Nhập key...">
+    <button onclick="checkKey()">Unlock</button>
+    <button class="alt" onclick="getKey()">Get Key</button>
+    <div class="timer" id="msg"></div>
+  </div>
+
+  <div class="content" id="menuBox" style="display:none">
+    <div class="tabs">
+      <button class="active" onclick="openTab('aim',this)">AIM</button>
+      <button onclick="openTab('visual',this)">VISUAL</button>
+    </div>
+
+    <div class="tab active" id="aim">
+      <div class="switch">
+        <span>Aim Head</span>
+        <input type="checkbox">
+      </div>
+      <div class="switch">
+        <span>Aim Body</span>
+        <input type="checkbox">
+      </div>
+
+      <div class="slider">
+        <label>Headshot %: <b id="hsVal">50</b>%</label>
+        <input type="range" min="0" max="100" value="50"
+        oninput="hsVal.innerText=this.value">
+      </div>
+    </div>
+
+    <div class="tab" id="visual">
+      <div class="switch">
+        <span>ESP Line</span>
+        <input type="checkbox">
+      </div>
+      <div class="switch">
+        <span>ESP Box</span>
+        <input type="checkbox">
+      </div>
+    </div>
+
+    <div class="timer" id="countdown"></div>
+    <div class="footer">mhhv2 prm • ui demo</div>
+  </div>
+</div>
+
+<script>
+const KEYS = ["hiepdzs1tg","nghuydangcapnhatquadat"];
+const KEY_TIME = 60*60*1000; // 1h
+
+function checkKey(){
+  const k = keyInput.value.trim();
+  if(!KEYS.includes(k)){
+    msg.innerText="❌ Key sai";
+    return;
+  }
+  const exp = Date.now()+KEY_TIME;
+  localStorage.setItem("mhhv2_key",k);
+  localStorage.setItem("mhhv2_exp",exp);
+  unlock();
+}
+
+function unlock(){
+  loginBox.style.display="none";
+  menuBox.style.display="block";
+  tick();
+}
+
+function tick(){
+  const exp = localStorage.getItem("mhhv2_exp");
+  if(!exp){location.reload();return}
+  const t = exp-Date.now();
+  if(t<=0){
+    localStorage.clear();
+    location.reload();
+    return;
+  }
+  const m = Math.floor(t/60000);
+  const s = Math.floor(t/1000)%60;
+  countdown.innerText=`Key còn: ${m}p ${s}s`;
+  setTimeout(tick,1000);
+}
+
+function getKey(){
+  window.open("https://linkvertise.com","_blank");
+}
+
+function openTab(id,btn){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+if(localStorage.getItem("mhhv2_key")){
+  unlock();
+}
+</script>
+
+</body>
+</html>
