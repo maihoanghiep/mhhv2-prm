@@ -200,6 +200,29 @@ function logout(){
     location.reload();
   },350);
 }
+(function(){
+  if(location.hash !== "#getkey") return;
+
+  const HOUR = 3600000;
+  const now = Date.now();
+  const start = localStorage.getItem("time");
+
+  if(!start || now - start >= HOUR){
+    const key = "MHHV2-" + Math.random().toString(36).substr(2,8).toUpperCase();
+    localStorage.setItem("key", key);
+    localStorage.setItem("time", now);
+
+    alert(
+      "KEY CỦA BẠN:\n" +
+      key +
+      "\n\nThời hạn: 1 giờ"
+    );
+  }else{
+    alert("Bạn đã có key đang hoạt động");
+  }
+
+  history.replaceState(null,"",location.pathname);
+})();
 </script>
  
 </body>
