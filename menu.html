@@ -118,7 +118,6 @@ if(params.get("getkey") === "success"){
   );
 }
 
-// timer
 setInterval(()=>{
   let n=new Date();
   let m=59-n.getMinutes();
@@ -131,20 +130,7 @@ function logout(){
   location.reload();
 }
 </script>
-// ====== TIMER ======
-setInterval(()=>{
-  let now = new Date();
-  let remainMin = 59 - now.getMinutes();
-  let remainSec = 59 - now.getSeconds();
-  document.getElementById("timer").innerText =
-    "Key đổi sau: " + remainMin + ":" +
-    (remainSec<10?"0"+remainSec:remainSec);
-},1000);
 
-// ====== LOGOUT ======
-function logout(){
-  location.reload();
-}
 </script>
 
 </body>
