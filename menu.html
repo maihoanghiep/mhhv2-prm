@@ -84,7 +84,6 @@ button{
 </div>
 
 <script>
-// ====== TẠO KEY THEO GIỜ ======
 function generateKey(){
   let d = new Date();
   let base =
@@ -92,16 +91,12 @@ function generateKey(){
     "" + (d.getMonth()+1) +
     d.getDate() +
     d.getHours();
-
   return "MHHV2-" + btoa(base).substring(0,6).toUpperCase();
 }
 
-// ====== CHECK KEY ======
 function checkKey(){
-  let input = document.getElementById("keyInput").value;
-  let realKey = generateKey();
-
-  if(input === realKey){
+  let input = keyInput.value;
+  if(input === generateKey()){
     login.classList.add("hidden");
     menu.classList.remove("hidden");
   }else{
@@ -109,15 +104,33 @@ function checkKey(){
   }
 }
 
-// ====== GET KEY ======
 function getKey(){
+  window.location.href =
+  "https://linkvertise.com/xxxxx";
+}
+// hiện key sau khi vượt link
+const params = new URLSearchParams(window.location.search);
+if(params.get("getkey") === "success"){
   alert(
-    "KEY HIỆN TẠI:\n\n" +
+    "KEY CỦA BẠN:\n\n" +
     generateKey() +
     "\n\nKey có hiệu lực 1 giờ"
   );
 }
 
+// timer
+setInterval(()=>{
+  let n=new Date();
+  let m=59-n.getMinutes();
+  let s=59-n.getSeconds();
+  timer.innerText =
+    "Key đổi sau: "+m+":"+(s<10?"0"+s:s);
+},1000);
+
+function logout(){
+  location.reload();
+}
+</script>
 // ====== TIMER ======
 setInterval(()=>{
   let now = new Date();
