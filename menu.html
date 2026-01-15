@@ -3,134 +3,254 @@
 <head>
 <meta charset="UTF-8">
 <title>mhhv2 prm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
-  background:#0f0f0f;
-  font-family:Arial;
-  color:white;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle at top,#1b1b1b,#000);
+  font-family:-apple-system,BlinkMacSystemFont;
+  color:#fff;
 }
-.box{
-  width:330px;
-  margin:60px auto;
-  background:#1b1b1b;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:0 0 25px #000;
+
+/* ===== CARD ===== */
+.card{
+  width:360px;
+  max-height:90vh;
+  overflow:auto;
+  background:rgba(20,20,20,.88);
+  backdrop-filter:blur(16px);
+  border-radius:26px;
+  padding:22px;
+  box-shadow:0 0 45px rgba(255,60,100,.45);
+  animation:fade .4s ease;
 }
+@keyframes fade{
+  from{opacity:0;transform:scale(.92)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* ===== LOGO ===== */
 .logo{
-  text-align:center;
-}
-.logo img{
-  width:90px;
+  width:90px;height:90px;
   border-radius:50%;
+  margin:0 auto 10px;
+  background:url("https://static.vecteezy.com/system/resources/thumbnails/065/760/026/small/cool-anime-boy-profile-portraits-logo-vector.jpg")
+  center/cover no-repeat;
+  box-shadow:0 0 25px #ff2f5a;
 }
-h2{
-  text-align:center;
-  margin:10px 0;
-}
-input{
+
+h2{text-align:center;color:#ff2f5a;margin:8px 0 10px}
+.timer{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px}
+
+/* ===== INPUT ===== */
+input[type=text]{
   width:100%;
-  padding:11px;
+  padding:14px;
+  border-radius:14px;
   border:none;
-  border-radius:12px;
-  margin-top:10px;
-}
-button{
-  width:100%;
-  padding:11px;
-  border:none;
-  border-radius:12px;
-  margin-top:10px;
-  background:#ff2d55;
-  color:white;
+  outline:none;
+  background:#111;
+  color:#fff;
+  margin-bottom:12px;
   font-size:15px;
 }
-.timer{
-  text-align:center;
-  margin-top:10px;
-  font-size:13px;
-  color:#aaa;
+
+/* ===== SECTION ===== */
+.section{margin-bottom:22px}
+.section h3{
+  margin:0 0 10px;
+  font-size:15px;
+  color:#ff6a8b;
 }
-.hidden{display:none;}
+
+/* ===== ITEM ===== */
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#141414;
+  padding:14px;
+  border-radius:16px;
+  margin-bottom:12px;
+  transition:.25s;
+}
+.item.active{box-shadow:0 0 12px rgba(255,47,90,.6)}
+.column{flex-direction:column;align-items:flex-start;gap:8px}
+
+/* ===== SWITCH ===== */
+.switch{width:50px;height:26px;position:relative}
+.switch input{display:none}
+.slider{
+  position:absolute;inset:0;
+  background:#555;border-radius:30px;
+  transition:.3s;
+}
+.slider:before{
+  content:"";position:absolute;
+  width:20px;height:20px;
+  background:#fff;border-radius:50%;
+  top:3px;left:3px;
+  transition:.3s;
+}
+.switch input:checked + .slider{background:#ff2f5a}
+.switch input:checked + .slider:before{transform:translateX(24px)}
+
+input[type=range]{width:100%}
+
+/* ===== BUTTON ===== */
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:#ff2f5a;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+.btn.secondary{background:#333;margin-top:10px}
+.btn:active{transform:scale(.96)}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="box" id="login">
-  <div class="logo">
-    <img src="https://static.vecteezy.com/system/resources/thumbnails/065/760/026/small/cool-anime-boy-profile-portraits-logo-vector.jpg">
-  </div>
-
+<!-- ===== LOGIN ===== -->
+<div class="card" id="login">
+  <div class="logo"></div>
   <h2>mhhv2 prm</h2>
+  <div class="timer" id="keyTime">Chưa có key</div>
 
-  <input id="keyInput" placeholder="Nhập key">
-  <button onclick="checkKey()">Xác nhận</button>
-  <button onclick="getKey()">Get Key</button>
-
-  <div class="timer" id="timer">Đang tải...</div>
+  <input type="text" id="keyInput" placeholder="Nhập key">
+  <button class="btn" onclick="checkKey()">Xác nhận</button>
+  <button class="btn secondary" onclick="getKey()">Get key</button>
 </div>
 
-<!-- MENU -->
-<div class="box hidden" id="menu">
-  <h2>MENU AIM</h2>
-  <button>Aim Head</button>
-  <button>Aim Body</button>
-  <button>Tỉ lệ Headshot</button>
-  <button onclick="logout()">Thoát key</button>
+<!-- ===== MENU ===== -->
+<div class="card" id="menu" style="display:none">
+  <div class="logo"></div>
+  <h2>MENU DEMO</h2>
+
+  <!-- AIM -->
+  <div class="section">
+    <h3>🎯 AIM</h3>
+    <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox" data-id="aimHead"><span class="slider"></span></label></div>
+    <div class="item"><span>Aim Neck</span><label class="switch"><input type="checkbox" data-id="aimNeck"><span class="slider"></span></label></div>
+    <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox" data-id="aimBody"><span class="slider"></span></label></div>
+    <div class="item"><span>Smooth Aim</span><label class="switch"><input type="checkbox" data-id="smoothAim"><span class="slider"></span></label></div>
+    <div class="item column">
+      <span>Aim FOV: <b id="fovVal">50</b></span>
+      <input type="range" min="0" max="100" value="50" id="fov">
+    </div>
+  </div>
+
+  <!-- ESP -->
+  <div class="section">
+    <h3>👁 ESP</h3>
+    <div class="item"><span>ESP Line</span><label class="switch"><input type="checkbox" data-id="espLine"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Box</span><label class="switch"><input type="checkbox" data-id="espBox"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Name</span><label class="switch"><input type="checkbox" data-id="espName"><span class="slider"></span></label></div>
+  </div>
+
+  <!-- PLAYER -->
+  <div class="section">
+    <h3>⚙️ PLAYER</h3>
+    <div class="item"><span>No Recoil</span><label class="switch"><input type="checkbox" data-id="noRecoil"><span class="slider"></span></label></div>
+    <div class="item"><span>Speed Hack</span><label class="switch"><input type="checkbox" data-id="speed"><span class="slider"></span></label></div>
+  </div>
+
+  <!-- BUTTONS -->
+  <button class="btn" onclick="saveConfig()">Xác nhận cấu hình</button>
+  <button class="btn secondary" onclick="resetConfig()">Reset cấu hình</button>
+  <button class="btn secondary" onclick="logout()">Thoát key</button>
 </div>
 
 <script>
-function generateKey(){
-  let d = new Date();
-  let base =
-    d.getFullYear() +
-    "" + (d.getMonth()+1) +
-    d.getDate() +
-    d.getHours();
-  return "MHHV2-" + btoa(base).substring(0,6).toUpperCase();
-}
+/* ===== KEY SYSTEM ===== */
+const KEY_TIME = 3600000;
 
-function checkKey(){
-  let input = keyInput.value;
-  if(input === generateKey()){
-    login.classList.add("hidden");
-    menu.classList.remove("hidden");
-  }else{
-    alert("Key sai hoặc đã hết hạn");
-  }
+function randomKey(){
+  return "KEY-" + Math.random().toString(36).substr(2,8).toUpperCase();
 }
 
 function getKey(){
   window.location.href =
-  "https://link4m.com/6nWa768d";
-}
-// hiện key sau khi vượt link
-const params = new URLSearchParams(window.location.search);
-if(params.get("getkey") === "success"){
-  alert(
-    "KEY CỦA BẠN:\n\n" +
-    generateKey() +
-    "\n\nKey có hiệu lực 1 giờ"
-  );
+  "https://linkvertise.com/XXXX"; // redirect về ?getkey=success
 }
 
-setInterval(()=>{
-  let n=new Date();
-  let m=59-n.getMinutes();
-  let s=59-n.getSeconds();
-  timer.innerText =
-    "Key đổi sau: "+m+":"+(s<10?"0"+s:s);
-},1000);
+const params = new URLSearchParams(location.search);
+if(params.get("getkey")==="success"){
+  const key = randomKey();
+  localStorage.setItem("key",key);
+  localStorage.setItem("time",Date.now());
+  alert("KEY CỦA BẠN:\n\n"+key+"\nHSD: 1 giờ");
+}
+
+function checkKey(){
+  const k = localStorage.getItem("key");
+  const t = localStorage.getItem("time");
+  if(!k || Date.now()-t>KEY_TIME) return alert("Key không hợp lệ / hết hạn");
+  if(keyInput.value!==k) return alert("Sai key");
+  login.style.display="none";
+  menu.style.display="block";
+  loadConfig();
+}
 
 function logout(){
+  localStorage.clear();
   location.reload();
 }
-</script>
 
+/* ===== TIMER ===== */
+setInterval(()=>{
+  const t = localStorage.getItem("time");
+  if(!t) return;
+  const left = KEY_TIME-(Date.now()-t);
+  keyTime.innerText = left>0
+   ? "Key còn: "+Math.floor(left/60000)+" phút"
+   : "Key đã hết hạn";
+},1000);
+
+/* ===== UI EFFECT ===== */
+document.querySelectorAll(".switch input").forEach(sw=>{
+  sw.addEventListener("change",()=>{
+    sw.closest(".item").classList.toggle("active",sw.checked);
+  });
+});
+
+fov.oninput=()=>fovVal.innerText=fov.value;
+
+/* ===== CONFIG SAVE ===== */
+function saveConfig(){
+  const cfg={};
+  document.querySelectorAll("[data-id]").forEach(e=>{
+    cfg[e.dataset.id]=e.checked;
+  });
+  cfg.fov=fov.value;
+  localStorage.setItem("config",JSON.stringify(cfg));
+  alert("Đã lưu cấu hình");
+}
+
+function loadConfig(){
+  const cfg=JSON.parse(localStorage.getItem("config")||"{}");
+  document.querySelectorAll("[data-id]").forEach(e=>{
+    e.checked=!!cfg[e.dataset.id];
+    e.closest(".item").classList.toggle("active",e.checked);
+  });
+  if(cfg.fov){fov.value=cfg.fov;fovVal.innerText=cfg.fov}
+}
+
+function resetConfig(){
+  localStorage.removeItem("config");
+  alert("Đã reset cấu hình");
+  location.reload();
+}
 </script>
 
 </body>
