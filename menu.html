@@ -4,136 +4,71 @@
 <meta charset="UTF-8">
 <title>mhhv2 prm</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;
   background:radial-gradient(circle at top,#1b1b1b,#000);
   font-family:-apple-system,BlinkMacSystemFont;color:#fff;
-  overflow:hidden;
 }
-
-/* CARD */
 .card{
-  width:360px;max-height:90vh;overflow:auto;
+  width:360px;max-height:90vh;
   background:rgba(20,20,20,.88);
   backdrop-filter:blur(18px);
   border-radius:26px;padding:22px;
   box-shadow:0 0 45px rgba(255,60,100,.45);
-  animation:fadeUp .6s cubic-bezier(.2,.8,.2,1);
+  animation:fadeUp .6s;
 }
-
-/* ANIMATION TIKTOK */
 @keyframes fadeUp{
   from{opacity:0;transform:translateY(30px) scale(.95)}
-  to{opacity:1;transform:translateY(0) scale(1)}
+  to{opacity:1;transform:none}
 }
 @keyframes fadeOut{
   to{opacity:0;transform:translateY(40px) scale(.9)}
 }
-
 .logo{
   width:90px;height:90px;border-radius:50%;margin:0 auto 10px;
   background:url("https://static.vecteezy.com/system/resources/thumbnails/065/760/026/small/cool-anime-boy-profile-portraits-logo-vector.jpg")
   center/cover no-repeat;
   box-shadow:0 0 25px #ff2f5a;
 }
-h2{text-align:center;color:#ff2f5a;margin:8px 0}
-.timer{text-align:center;font-size:14px;opacity:.9;margin-bottom:8px}
-
-.progress{
-  width:100%;height:8px;background:#222;border-radius:10px;overflow:hidden;margin-bottom:16px
-}
-.progress span{display:block;height:100%;width:0%;background:#ff2f5a;transition:.3s}
-
+h2{text-align:center;color:#ff2f5a}
+.timer{text-align:center;font-size:14px;margin-bottom:8px}
+.progress{height:8px;background:#222;border-radius:10px;margin-bottom:16px;overflow:hidden}
+.progress span{display:block;height:100%;background:#ff2f5a;width:0%}
 input{
   width:100%;padding:14px;border-radius:14px;border:none;
-  background:#111;color:#fff;margin-bottom:12px;font-size:15px
+  background:#111;color:#fff;margin-bottom:12px
 }
-
 .btn{
   width:100%;padding:14px;border:none;border-radius:16px;
-  background:#ff2f5a;color:#fff;font-size:16px;cursor:pointer
+  background:#ff2f5a;color:#fff;font-size:16px
 }
 .btn.secondary{background:#333;margin-top:10px}
-.btn:active{transform:scale(.96)}
-
-.section{margin-bottom:22px}
-.section h3{margin:0 0 10px;font-size:15px;color:#ff6a8b}
-
-.item{
-  display:flex;justify-content:space-between;align-items:center;
-  background:#141414;padding:14px;border-radius:16px;margin-bottom:12px
-}
-
-.switch{width:50px;height:26px;position:relative}
-.switch input{display:none}
-.slider{
-  position:absolute;inset:0;background:#555;border-radius:30px
-}
-.slider:before{
-  content:"";position:absolute;width:20px;height:20px;background:#fff;
-  border-radius:50%;top:3px;left:3px;transition:.3s
-}
-.switch input:checked + .slider{background:#ff2f5a}
-.switch input:checked + .slider:before{transform:translateX(24px)}
-
-input[type=range]{width:100%}
-
-/* PLAYER ID BADGE */
 .player-box{
-  text-align:center;
-  background:#121212;
-  padding:10px;
-  border-radius:14px;
-  margin-bottom:16px;
-  font-size:14px;
-  box-shadow:0 0 10px rgba(255,60,100,.25)
+  text-align:center;background:#121212;
+  padding:10px;border-radius:14px;margin-bottom:16px
 }
-.player-box span{color:#ff2f5a;font-weight:600}
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
 <div class="card" id="login">
   <div class="logo"></div>
   <h2>mhhv2 prm</h2>
-
   <div class="timer" id="keyTime">Chưa kích hoạt key</div>
   <div class="progress"><span id="bar"></span></div>
-
-  <input type="text" id="keyInput" placeholder="Nhập key">
-  <input type="text" id="playerId" placeholder="Nhập ID người chơi">
-
+  <input id="keyInput" placeholder="Nhập key">
+  <input id="playerId" placeholder="Nhập ID người chơi">
   <button class="btn" onclick="checkKey()">Xác nhận</button>
   <button class="btn secondary" onclick="getKey()">Get key</button>
 </div>
 
-<!-- MENU -->
 <div class="card" id="menu" style="display:none">
   <div class="logo"></div>
   <h2>MENU</h2>
-
-  <!-- HIỆN ID -->
-  <div class="player-box">
-    ID người chơi: <span id="showId"></span>
-  </div>
-
-  <div class="section">
-    <h3>🎯 AIM</h3>
-    <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-    <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-    <div class="item"><span>Smooth Aim</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-    <div class="item">
-      <span>Headshot %</span>
-      <input type="range" min="0" max="100" value="50">
-    </div>
-  </div>
-
-  <button class="btn" onclick="saveConfig()">Xác nhận cấu hình</button>
+  <div class="player-box">ID người chơi: <span id="showId"></span></div>
   <button class="btn secondary" onclick="logout()">Thoát key</button>
 </div>
 
@@ -145,85 +80,62 @@ function getKey(){
   location.href =
   "https://link4m.com/SDUvEN=https://maihoanghiep.github.io/mhhv2-prm/menu.html#getkey";
 }
+
 /* NHẬN KEY */
-if(location.hash === "#getkey"){
+(function(){
+  if(location.hash !== "#getkey") return;
+
   const now = Date.now();
   const old = localStorage.getItem("time");
 
-  if(!old || now - old > 3600000){
+  if(!old || now - old >= KEY_TIME){
     const key = "MHHV2-" + Math.random().toString(36).substr(2,8).toUpperCase();
     localStorage.setItem("key", key);
     localStorage.setItem("time", now);
-
     alert("KEY CỦA BẠN:\n" + key + "\nHSD: 1 giờ");
+  }else{
+    alert("Bạn đã có key đang hoạt động");
   }
-
   history.replaceState(null,"",location.pathname);
-}
-/* CHECK */
-function checkKey(){
-  if(keyInput.value !== localStorage.getItem("key"))
-    return alert("Sai key");
-  if(!playerId.value) return alert("Chưa nhập ID");
+})();
 
-  localStorage.setItem("playerId",playerId.value);
-
-  login.style.animation="fadeOut .4s forwards";
-  setTimeout(()=>{
+/* AUTO LOGIN */
+(function(){
+  const t = localStorage.getItem("time");
+  if(t && Date.now()-t < KEY_TIME && localStorage.getItem("playerId")){
     login.style.display="none";
     menu.style.display="block";
     showId.innerText = localStorage.getItem("playerId");
-  },350);
+  }
+})();
+
+/* CHECK */
+function checkKey(){
+  if(keyInput.value !== localStorage.getItem("key")) return alert("Sai key");
+  if(!playerId.value) return alert("Chưa nhập ID");
+
+  localStorage.setItem("playerId",playerId.value);
+  login.style.display="none";
+  menu.style.display="block";
+  showId.innerText = playerId.value;
 }
 
 /* TIMER */
 setInterval(()=>{
   const t = localStorage.getItem("time");
   if(!t) return;
-  const left = KEY_TIME - (Date.now()-t);
+  const left = KEY_TIME-(Date.now()-t);
   if(left<=0){keyTime.innerText="Key hết hạn";bar.style.width="0%";return;}
   bar.style.width=(left/KEY_TIME*100)+"%";
-  keyTime.innerText=`Key còn ${Math.floor(left/60000)}p ${Math.floor(left%60000/1000)}s`;
+  keyTime.innerText=`Key còn ${Math.floor(left/60000)}p`;
 },1000);
-
-/* SAVE */
-function saveConfig(){
-  menu.style.animation="fadeUp .4s";
-  alert("Đã lưu cấu hình cho ID: "+localStorage.getItem("playerId"));
-}
 
 /* LOGOUT */
 function logout(){
-  menu.style.animation="fadeOut .4s forwards";
-  setTimeout(()=>{
-    localStorage.clear();
-    location.reload();
-  },350);
+  localStorage.clear();
+  location.reload();
 }
-(function(){
-  if(location.hash !== "#getkey") return;
-
-  const HOUR = 3600000;
-  const now = Date.now();
-  const start = localStorage.getItem("time");
-
-  if(!start || now - start >= HOUR){
-    const key = "MHHV2-" + Math.random().toString(36).substr(2,8).toUpperCase();
-    localStorage.setItem("key", key);
-    localStorage.setItem("time", now);
-
-    alert(
-      "KEY CỦA BẠN:\n" +
-      key +
-      "\n\nThời hạn: 1 giờ"
-    );
-  }else{
-    alert("Bạn đã có key đang hoạt động");
-  }
-
-  history.replaceState(null,"",location.pathname);
-})();
 </script>
- 
+
 </body>
 </html>
