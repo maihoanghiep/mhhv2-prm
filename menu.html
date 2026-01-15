@@ -142,19 +142,24 @@ const KEY_TIME = 3600000;
 
 /* GET KEY */
 function getKey(){
-  window.location.href =
-  "https://link4m.com/6nWa768d";
+  location.href =
+  "https://link4m.com/6nWa768d=https://maihoanghiep.github.io/mhhv2-prm/menu.html#getkey";
 }
-
 /* NHẬN KEY */
-const p = new URLSearchParams(location.search);
-if(p.get("getkey")==="success" && !localStorage.getItem("key")){
-  const k = "KEY-" + Math.random().toString(36).substr(2,8).toUpperCase();
-  localStorage.setItem("key",k);
-  localStorage.setItem("time",Date.now());
-  alert("KEY:\n"+k+"\nHSD: 1 giờ");
-}
+if(location.hash === "#getkey"){
+  const now = Date.now();
+  const old = localStorage.getItem("time");
 
+  if(!old || now - old > 3600000){
+    const key = "MHHV2-" + Math.random().toString(36).substr(2,8).toUpperCase();
+    localStorage.setItem("key", key);
+    localStorage.setItem("time", now);
+
+    alert("KEY CỦA BẠN:\n" + key + "\nHSD: 1 giờ");
+  }
+
+  history.replaceState(null,"",location.pathname);
+}
 /* CHECK */
 function checkKey(){
   if(keyInput.value !== localStorage.getItem("key"))
