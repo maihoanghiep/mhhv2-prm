@@ -8,248 +8,192 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;
   background:radial-gradient(circle at top,#1b1b1b,#000);
-  font-family:-apple-system,BlinkMacSystemFont;
-  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont;color:#fff;
+  overflow:hidden;
 }
 
-/* ===== CARD ===== */
+/* CARD */
 .card{
-  width:360px;
-  max-height:90vh;
-  overflow:auto;
+  width:360px;max-height:90vh;overflow:auto;
   background:rgba(20,20,20,.88);
-  backdrop-filter:blur(16px);
-  border-radius:26px;
-  padding:22px;
+  backdrop-filter:blur(18px);
+  border-radius:26px;padding:22px;
   box-shadow:0 0 45px rgba(255,60,100,.45);
-  animation:fade .4s ease;
-}
-@keyframes fade{
-  from{opacity:0;transform:scale(.92)}
-  to{opacity:1;transform:scale(1)}
+  animation:fadeUp .6s cubic-bezier(.2,.8,.2,1);
 }
 
-/* ===== LOGO ===== */
+/* ANIMATION TIKTOK */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px) scale(.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes fadeOut{
+  to{opacity:0;transform:translateY(40px) scale(.9)}
+}
+
 .logo{
-  width:90px;height:90px;
-  border-radius:50%;
-  margin:0 auto 10px;
+  width:90px;height:90px;border-radius:50%;margin:0 auto 10px;
   background:url("https://static.vecteezy.com/system/resources/thumbnails/065/760/026/small/cool-anime-boy-profile-portraits-logo-vector.jpg")
   center/cover no-repeat;
   box-shadow:0 0 25px #ff2f5a;
 }
+h2{text-align:center;color:#ff2f5a;margin:8px 0}
+.timer{text-align:center;font-size:14px;opacity:.9;margin-bottom:8px}
 
-h2{text-align:center;color:#ff2f5a;margin:8px 0 10px}
-.timer{text-align:center;font-size:14px;opacity:.85;margin-bottom:16px}
+.progress{
+  width:100%;height:8px;background:#222;border-radius:10px;overflow:hidden;margin-bottom:16px
+}
+.progress span{display:block;height:100%;width:0%;background:#ff2f5a;transition:.3s}
 
-/* ===== INPUT ===== */
-input[type=text]{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:none;
-  outline:none;
-  background:#111;
-  color:#fff;
-  margin-bottom:12px;
-  font-size:15px;
+input{
+  width:100%;padding:14px;border-radius:14px;border:none;
+  background:#111;color:#fff;margin-bottom:12px;font-size:15px
 }
 
-/* ===== SECTION ===== */
+.btn{
+  width:100%;padding:14px;border:none;border-radius:16px;
+  background:#ff2f5a;color:#fff;font-size:16px;cursor:pointer
+}
+.btn.secondary{background:#333;margin-top:10px}
+.btn:active{transform:scale(.96)}
+
 .section{margin-bottom:22px}
-.section h3{
-  margin:0 0 10px;
-  font-size:15px;
-  color:#ff6a8b;
-}
+.section h3{margin:0 0 10px;font-size:15px;color:#ff6a8b}
 
-/* ===== ITEM ===== */
 .item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#141414;
-  padding:14px;
-  border-radius:16px;
-  margin-bottom:12px;
-  transition:.25s;
+  display:flex;justify-content:space-between;align-items:center;
+  background:#141414;padding:14px;border-radius:16px;margin-bottom:12px
 }
-.item.active{box-shadow:0 0 12px rgba(255,47,90,.6)}
-.column{flex-direction:column;align-items:flex-start;gap:8px}
 
-/* ===== SWITCH ===== */
 .switch{width:50px;height:26px;position:relative}
 .switch input{display:none}
 .slider{
-  position:absolute;inset:0;
-  background:#555;border-radius:30px;
-  transition:.3s;
+  position:absolute;inset:0;background:#555;border-radius:30px
 }
 .slider:before{
-  content:"";position:absolute;
-  width:20px;height:20px;
-  background:#fff;border-radius:50%;
-  top:3px;left:3px;
-  transition:.3s;
+  content:"";position:absolute;width:20px;height:20px;background:#fff;
+  border-radius:50%;top:3px;left:3px;transition:.3s
 }
 .switch input:checked + .slider{background:#ff2f5a}
 .switch input:checked + .slider:before{transform:translateX(24px)}
 
 input[type=range]{width:100%}
 
-/* ===== BUTTON ===== */
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  background:#ff2f5a;
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
+/* PLAYER ID BADGE */
+.player-box{
+  text-align:center;
+  background:#121212;
+  padding:10px;
+  border-radius:14px;
+  margin-bottom:16px;
+  font-size:14px;
+  box-shadow:0 0 10px rgba(255,60,100,.25)
 }
-.btn.secondary{background:#333;margin-top:10px}
-.btn:active{transform:scale(.96)}
+.player-box span{color:#ff2f5a;font-weight:600}
 </style>
 </head>
 
 <body>
 
-<!-- ===== LOGIN ===== -->
+<!-- LOGIN -->
 <div class="card" id="login">
   <div class="logo"></div>
   <h2>mhhv2 prm</h2>
-  <div class="timer" id="keyTime">Chưa có key</div>
+
+  <div class="timer" id="keyTime">Chưa kích hoạt key</div>
+  <div class="progress"><span id="bar"></span></div>
 
   <input type="text" id="keyInput" placeholder="Nhập key">
+  <input type="text" id="playerId" placeholder="Nhập ID người chơi">
+
   <button class="btn" onclick="checkKey()">Xác nhận</button>
   <button class="btn secondary" onclick="getKey()">Get key</button>
 </div>
 
-<!-- ===== MENU ===== -->
+<!-- MENU -->
 <div class="card" id="menu" style="display:none">
   <div class="logo"></div>
-  <h2>MENU DEMO</h2>
+  <h2>MENU</h2>
 
-  <!-- AIM -->
+  <!-- HIỆN ID -->
+  <div class="player-box">
+    ID người chơi: <span id="showId"></span>
+  </div>
+
   <div class="section">
     <h3>🎯 AIM</h3>
-    <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox" data-id="aimHead"><span class="slider"></span></label></div>
-    <div class="item"><span>Aim Neck</span><label class="switch"><input type="checkbox" data-id="aimNeck"><span class="slider"></span></label></div>
-    <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox" data-id="aimBody"><span class="slider"></span></label></div>
-    <div class="item"><span>Smooth Aim</span><label class="switch"><input type="checkbox" data-id="smoothAim"><span class="slider"></span></label></div>
-    <div class="item column">
-      <span>Aim FOV: <b id="fovVal">50</b></span>
-      <input type="range" min="0" max="100" value="50" id="fov">
+    <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Smooth Aim</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item">
+      <span>Headshot %</span>
+      <input type="range" min="0" max="100" value="50">
     </div>
   </div>
 
-  <!-- ESP -->
-  <div class="section">
-    <h3>👁 ESP</h3>
-    <div class="item"><span>ESP Line</span><label class="switch"><input type="checkbox" data-id="espLine"><span class="slider"></span></label></div>
-    <div class="item"><span>ESP Box</span><label class="switch"><input type="checkbox" data-id="espBox"><span class="slider"></span></label></div>
-    <div class="item"><span>ESP Name</span><label class="switch"><input type="checkbox" data-id="espName"><span class="slider"></span></label></div>
-  </div>
-
-  <!-- PLAYER -->
-  <div class="section">
-    <h3>⚙️ PLAYER</h3>
-    <div class="item"><span>No Recoil</span><label class="switch"><input type="checkbox" data-id="noRecoil"><span class="slider"></span></label></div>
-    <div class="item"><span>Speed Hack</span><label class="switch"><input type="checkbox" data-id="speed"><span class="slider"></span></label></div>
-  </div>
-
-  <!-- BUTTONS -->
   <button class="btn" onclick="saveConfig()">Xác nhận cấu hình</button>
-  <button class="btn secondary" onclick="resetConfig()">Reset cấu hình</button>
   <button class="btn secondary" onclick="logout()">Thoát key</button>
 </div>
 
 <script>
-/* ===== KEY SYSTEM ===== */
 const KEY_TIME = 3600000;
 
-function randomKey(){
-  return "KEY-" + Math.random().toString(36).substr(2,8).toUpperCase();
-}
-
+/* GET KEY */
 function getKey(){
   window.location.href =
-  "https://link4m.com/6nWa768d"; // redirect về ?getkey=success
+  "https://link4m.com/6nWa768d";
 }
 
-const params = new URLSearchParams(location.search);
-if(params.get("getkey")==="success"){
-  const key = randomKey();
-  localStorage.setItem("key",key);
+/* NHẬN KEY */
+const p = new URLSearchParams(location.search);
+if(p.get("getkey")==="success" && !localStorage.getItem("key")){
+  const k = "KEY-" + Math.random().toString(36).substr(2,8).toUpperCase();
+  localStorage.setItem("key",k);
   localStorage.setItem("time",Date.now());
-  alert("KEY CỦA BẠN:\n\n"+key+"\nHSD: 1 giờ");
+  alert("KEY:\n"+k+"\nHSD: 1 giờ");
 }
 
+/* CHECK */
 function checkKey(){
-  const k = localStorage.getItem("key");
-  const t = localStorage.getItem("time");
-  if(!k || Date.now()-t>KEY_TIME) return alert("Key không hợp lệ / hết hạn");
-  if(keyInput.value!==k) return alert("Sai key");
-  login.style.display="none";
-  menu.style.display="block";
-  loadConfig();
+  if(keyInput.value !== localStorage.getItem("key"))
+    return alert("Sai key");
+  if(!playerId.value) return alert("Chưa nhập ID");
+
+  localStorage.setItem("playerId",playerId.value);
+
+  login.style.animation="fadeOut .4s forwards";
+  setTimeout(()=>{
+    login.style.display="none";
+    menu.style.display="block";
+    showId.innerText = localStorage.getItem("playerId");
+  },350);
 }
 
-function logout(){
-  localStorage.clear();
-  location.reload();
-}
-
-/* ===== TIMER ===== */
+/* TIMER */
 setInterval(()=>{
   const t = localStorage.getItem("time");
   if(!t) return;
-  const left = KEY_TIME-(Date.now()-t);
-  keyTime.innerText = left>0
-   ? "Key còn: "+Math.floor(left/60000)+" phút"
-   : "Key đã hết hạn";
+  const left = KEY_TIME - (Date.now()-t);
+  if(left<=0){keyTime.innerText="Key hết hạn";bar.style.width="0%";return;}
+  bar.style.width=(left/KEY_TIME*100)+"%";
+  keyTime.innerText=`Key còn ${Math.floor(left/60000)}p ${Math.floor(left%60000/1000)}s`;
 },1000);
 
-/* ===== UI EFFECT ===== */
-document.querySelectorAll(".switch input").forEach(sw=>{
-  sw.addEventListener("change",()=>{
-    sw.closest(".item").classList.toggle("active",sw.checked);
-  });
-});
-
-fov.oninput=()=>fovVal.innerText=fov.value;
-
-/* ===== CONFIG SAVE ===== */
+/* SAVE */
 function saveConfig(){
-  const cfg={};
-  document.querySelectorAll("[data-id]").forEach(e=>{
-    cfg[e.dataset.id]=e.checked;
-  });
-  cfg.fov=fov.value;
-  localStorage.setItem("config",JSON.stringify(cfg));
-  alert("Đã lưu cấu hình");
+  menu.style.animation="fadeUp .4s";
+  alert("Đã lưu cấu hình cho ID: "+localStorage.getItem("playerId"));
 }
 
-function loadConfig(){
-  const cfg=JSON.parse(localStorage.getItem("config")||"{}");
-  document.querySelectorAll("[data-id]").forEach(e=>{
-    e.checked=!!cfg[e.dataset.id];
-    e.closest(".item").classList.toggle("active",e.checked);
-  });
-  if(cfg.fov){fov.value=cfg.fov;fovVal.innerText=cfg.fov}
-}
-
-function resetConfig(){
-  localStorage.removeItem("config");
-  alert("Đã reset cấu hình");
-  location.reload();
+/* LOGOUT */
+function logout(){
+  menu.style.animation="fadeOut .4s forwards";
+  setTimeout(()=>{
+    localStorage.clear();
+    location.reload();
+  },350);
 }
 </script>
 
