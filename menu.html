@@ -107,15 +107,14 @@ small{opacity:.6}
   <h2>MENU</h2>
 
   <div class="player-box">Player ID: <b id="showId"></b></div>
-
-  <div class="tab">
-    <button class="active" onclick="openTab(0)">AIM</button>
-    <button onclick="openTab(1)">ESP</button>
-    <button onclick="openTab(2)">PLAYER</button>
-    <button onclick="openTab(3)">VISUAL</button>
-    <button onclick="openTab(4)">SYSTEM</button>
-  </div>
-
+<div class="tab">
+  <button class="active" onclick="openTab(0)">AIM</button>
+  <button onclick="openTab(1)">ESP</button>
+  <button onclick="openTab(2)">PLAYER</button>
+  <button onclick="openTab(3)">VISUAL</button>
+  <button onclick="openTab(4)">SYSTEM</button>
+  <button id="mhhTab" style="display:none" onclick="openTab(5)">MHH</button>
+</div>
   <!-- AIM -->
   <div class="section active">
     <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
@@ -160,6 +159,29 @@ small{opacity:.6}
 
   <button class="btn" onclick="alert('Đã lưu cấu hình')">Xác nhận cấu hình</button>
 </div>
+<!-- MHH SPECIAL -->
+<div class="section">
+  <div class="item">
+    <span>TD</span>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="item">
+    <span>TD vv</span>
+    <label class="switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="item">
+    <span>TD Pro+</span>
+    <input type="range">
+  </div>
+</div>
 
 <script>
 const KEY_TIME=3600000;
@@ -184,12 +206,31 @@ function getKey(){
 
 /* CHECK */
 function checkKey(){
-  if(keyInput.value!==localStorage.key)return alert("Sai key");
-  if(!playerId.value)return alert("Chưa nhập ID");
-  showId.innerText=playerId.value;
-  login.style.display="none";menu.style.display="block";
-}
+  const key = keyInput.value.trim();
 
+  if(key === "mhh"){
+    showId.innerText = playerId.value || "MHH USER";
+    login.style.display="none";
+    menu.style.display="block";
+    document.getElementById("mhhTab").style.display="block";
+    alert("KEY ĐẶC BIỆT MHH ĐÃ KÍCH HOẠT");
+    return;
+  }
+
+  if(key !== localStorage.key){
+    alert("Sai key");
+    return;
+  }
+
+  if(!playerId.value){
+    alert("Chưa nhập ID");
+    return;
+  }
+
+  showId.innerText = playerId.value;
+  login.style.display="none";
+  menu.style.display="block";
+}
 /* TIMER */
 setInterval(()=>{
   if(!localStorage.time)return;
@@ -208,6 +249,7 @@ function openTab(i){
 /* RESET + LOGOUT */
 function resetConfig(){localStorage.clear();alert("Đã reset config")}
 function logout(){localStorage.clear();location.reload()}
+
 </script>
 
 </body>
