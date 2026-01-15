@@ -124,11 +124,8 @@ function getKey(){
   const back = encodeURIComponent(
     location.origin + location.pathname + "#getkey"
   );
-
-  // 🔴 CHỈ CẦN THAY LINK NÀY
-  location.href = "https://link4m.com/SDUvEN=" + back;
+  location.href = "https://link4m.com/SDUvEN?redirect=" + back;
 }
-
 /* ================= SINH KEY ================= */
 (function(){
   if(location.hash !== "#getkey") return;
