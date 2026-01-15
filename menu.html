@@ -6,47 +6,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+*{box-sizing:border-box;font-family:Poppins}
 body{
-  margin:0;min-height:100vh;
-  display:flex;justify-content:center;align-items:center;
-  background:linear-gradient(135deg,#050505,#0c0c0c);
+  margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;
+  background:radial-gradient(circle at top,#ff2f5a40,transparent 45%),
+             radial-gradient(circle at bottom,#00ffd540,transparent 45%),
+             linear-gradient(135deg,#050505,#0b0b0b);
   color:#fff;
 }
 .card{
-  width:390px;
+  width:400px;max-height:92vh;overflow:auto;
   background:rgba(20,20,20,.8);
-  backdrop-filter:blur(20px);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:0 0 40px rgba(255,47,90,.35);
-  animation:fade .5s ease;
+  backdrop-filter:blur(22px);
+  border-radius:30px;padding:22px;
+  box-shadow:0 0 45px rgba(255,47,90,.35);
 }
-@keyframes fade{from{opacity:0;transform:scale(.9)}}
-
 .logo{
-  width:90px;height:90px;border-radius:50%;
-  margin:0 auto 12px;
+  width:92px;height:92px;border-radius:26px;margin:0 auto 10px;
   background:url("https://static.vecteezy.com/system/resources/thumbnails/065/760/026/small/cool-anime-boy-profile-portraits-logo-vector.jpg")
   center/cover no-repeat;
-  box-shadow:0 0 25px #ff2f5a;
+  box-shadow:0 0 30px #ff2f5a;
 }
-h2{text-align:center;color:#ff2f5a;margin:6px 0 14px}
+h2{text-align:center;color:#ff2f5a;margin:6px 0 12px}
 
 .timer{text-align:center;font-size:14px}
-.progress{
-  height:8px;background:#111;border-radius:10px;
-  overflow:hidden;margin:10px 0 16px
-}
-.progress span{
-  height:100%;display:block;width:0%;
-  background:linear-gradient(90deg,#ff2f5a,#ff7aa2);
-}
+.progress{height:8px;background:#111;border-radius:10px;overflow:hidden;margin:10px 0 16px}
+.progress span{height:100%;display:block;background:linear-gradient(90deg,#ff2f5a,#ff7aa2);width:0%}
 
 input{
-  width:100%;padding:14px;border-radius:16px;
-  border:none;background:#111;color:#fff;
-  margin-bottom:12px
+  width:100%;padding:14px;border-radius:16px;border:none;
+  background:#111;color:#fff;margin-bottom:12px
 }
 .btn{
   width:100%;padding:14px;border:none;border-radius:18px;
@@ -56,28 +46,41 @@ input{
 .btn.secondary{background:#222}
 
 .player-box{
-  text-align:center;
-  background:#111;
-  padding:10px;border-radius:16px;
-  margin-bottom:14px
+  text-align:center;background:#111;padding:12px;border-radius:18px;margin-bottom:12px
 }
+
+/* TAB */
+.tab{display:flex;background:#111;border-radius:18px;padding:6px;margin-bottom:12px}
+.tab button{
+  flex:1;border:none;background:transparent;color:#aaa;
+  padding:10px;border-radius:14px;font-size:12px
+}
+.tab button.active{
+  background:linear-gradient(135deg,#ff2f5a,#ff7aa2);
+  color:#fff;box-shadow:0 0 18px #ff2f5a88
+}
+
+/* SECTION */
+.section{display:none}
+.section.active{display:block}
+
 .item{
   display:flex;justify-content:space-between;align-items:center;
-  background:#141414;padding:14px;border-radius:16px;
-  margin-bottom:10px
+  background:#141414;padding:14px;border-radius:18px;margin-bottom:10px
 }
+.item span{font-size:14px}
+
 .switch{width:46px;height:24px;position:relative}
 .switch input{display:none}
-.slider{
-  position:absolute;inset:0;background:#555;border-radius:30px
-}
+.slider{position:absolute;inset:0;background:#555;border-radius:30px}
 .slider:before{
-  content:"";position:absolute;width:18px;height:18px;
-  background:#fff;border-radius:50%;
-  top:3px;left:3px;transition:.3s
+  content:"";position:absolute;width:18px;height:18px;background:#fff;
+  border-radius:50%;top:3px;left:3px;transition:.3s
 }
 .switch input:checked + .slider{background:#ff2f5a}
 .switch input:checked + .slider:before{transform:translateX(22px)}
+input[type=range]{width:100%}
+small{opacity:.6}
 </style>
 </head>
 
@@ -103,81 +106,108 @@ input{
   <div class="logo"></div>
   <h2>MENU</h2>
 
-  <div class="player-box">
-    Player ID: <b id="showId"></b>
+  <div class="player-box">Player ID: <b id="showId"></b></div>
+
+  <div class="tab">
+    <button class="active" onclick="openTab(0)">AIM</button>
+    <button onclick="openTab(1)">ESP</button>
+    <button onclick="openTab(2)">PLAYER</button>
+    <button onclick="openTab(3)">VISUAL</button>
+    <button onclick="openTab(4)">SYSTEM</button>
   </div>
 
-  <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-  <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-  <div class="item"><span>ESP Box</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
-  <div class="item"><span>Speed Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+  <!-- AIM -->
+  <div class="section active">
+    <div class="item"><span>Aim Head</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Aim Body</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Silent Aim</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Smooth Aim</span><input type="range"></div>
+    <div class="item"><span>FOV</span><input type="range"></div>
+    <div class="item"><span>Headshot %</span><input type="range"></div>
+  </div>
+
+  <!-- ESP -->
+  <div class="section">
+    <div class="item"><span>ESP Box</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Line</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Name</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Health</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>ESP Distance</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+  </div>
+
+  <!-- PLAYER -->
+  <div class="section">
+    <div class="item"><span>Speed Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Jump Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>No Recoil</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>No Spread</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+  </div>
+
+  <!-- VISUAL -->
+  <div class="section">
+    <div class="item"><span>FPS Boost</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Low Graphics</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Remove Shake</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+    <div class="item"><span>Brightness</span><input type="range"></div>
+  </div>
+
+  <!-- SYSTEM -->
+  <div class="section">
+    <div class="item"><span>Save Config</span><small>Tự động</small></div>
+    <div class="item"><span>Reset Config</span><button class="btn secondary" onclick="resetConfig()">Reset</button></div>
+    <button class="btn secondary" onclick="logout()">Thoát key</button>
+  </div>
 
   <button class="btn" onclick="alert('Đã lưu cấu hình')">Xác nhận cấu hình</button>
-  <button class="btn secondary" onclick="logout()">Thoát key</button>
 </div>
 
 <script>
-const KEY_TIME = 3600000;
+const KEY_TIME=3600000;
 
-/* ================= GET KEY ================= */
+/* GET KEY – chỉ thay link4m */
 function getKey(){
-  const back = encodeURIComponent(
-    location.origin + location.pathname + "#getkey"
-  );
-  location.href = "https://link4m.com/SDUvEN?redirect=" + back;
+  const back=encodeURIComponent(location.origin+location.pathname+"#getkey");
+  location.href="https://link4m.com/SDUvEN?redirect="+back;
 }
-/* ================= SINH KEY ================= */
+
+/* SINH KEY */
 (function(){
-  if(location.hash !== "#getkey") return;
-
-  const now = Date.now();
-  const old = localStorage.getItem("time");
-
-  if(!old || now - old >= KEY_TIME){
-    const key = "MHHV2-" + Math.random().toString(36).substr(2,8).toUpperCase();
-    localStorage.setItem("key", key);
-    localStorage.setItem("time", now);
-    alert("KEY CỦA BẠN:\n" + key + "\nHSD: 1 giờ");
-  }else{
-    alert("Key cũ vẫn còn hạn");
-  }
-
+  if(location.hash!="#getkey")return;
+  const now=Date.now();
+  if(!localStorage.time||now-localStorage.time>=KEY_TIME){
+    localStorage.key="MHHV2-"+Math.random().toString(36).substr(2,8).toUpperCase();
+    localStorage.time=now;
+    alert("KEY:\n"+localStorage.key+"\nHSD: 1 giờ");
+  }else alert("Key còn hạn");
   history.replaceState(null,"",location.pathname);
 })();
 
-/* ================= CHECK ================= */
+/* CHECK */
 function checkKey(){
-  if(keyInput.value !== localStorage.getItem("key"))
-    return alert("Sai key");
-
-  if(!playerId.value)
-    return alert("Chưa nhập ID");
-
-  showId.innerText = playerId.value;
-  login.style.display="none";
-  menu.style.display="block";
+  if(keyInput.value!==localStorage.key)return alert("Sai key");
+  if(!playerId.value)return alert("Chưa nhập ID");
+  showId.innerText=playerId.value;
+  login.style.display="none";menu.style.display="block";
 }
 
-/* ================= TIMER ================= */
+/* TIMER */
 setInterval(()=>{
-  const t = localStorage.getItem("time");
-  if(!t) return;
-  const left = KEY_TIME - (Date.now() - t);
-  if(left <= 0){
-    keyTime.innerText="Key hết hạn";
-    bar.style.width="0%";
-    return;
-  }
-  keyTime.innerText =
-    "Key còn " + Math.floor(left/60000) + " phút";
-  bar.style.width = (left/KEY_TIME*100) + "%";
+  if(!localStorage.time)return;
+  const left=KEY_TIME-(Date.now()-localStorage.time);
+  if(left<=0){keyTime.innerText="Key hết hạn";bar.style.width="0%";return;}
+  keyTime.innerText="Key còn "+Math.floor(left/60000)+" phút";
+  bar.style.width=(left/KEY_TIME*100)+"%";
 },1000);
 
-/* ================= LOGOUT ================= */
-function logout(){
-  localStorage.clear();
-  location.reload();
+/* TAB */
+function openTab(i){
+  document.querySelectorAll(".tab button").forEach((b,n)=>b.classList.toggle("active",n===i));
+  document.querySelectorAll(".section").forEach((s,n)=>s.classList.toggle("active",n===i));
 }
+
+/* RESET + LOGOUT */
+function resetConfig(){localStorage.clear();alert("Đã reset config")}
+function logout(){localStorage.clear();location.reload()}
 </script>
 
 </body>
